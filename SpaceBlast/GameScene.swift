@@ -11,6 +11,7 @@ import SpriteKit
 class GameScene: SKScene {
     
     var screenCenter: CGPoint!
+    let moon = SKShapeNode(ellipseOfSize: CGSizeMake(500, 500))
     
     
     override func didMoveToView(view: SKView) {
@@ -19,6 +20,8 @@ class GameScene: SKScene {
         screenCenter = view.center
         
         createMoon()
+        
+        createAsteriods()
         
         let ship = SKSpriteNode(imageNamed: "ship")
         ship.position = screenCenter
@@ -51,7 +54,7 @@ class GameScene: SKScene {
     
     func createMoon() {
     
-    let moon = SKShapeNode(ellipseOfSize: CGSizeMake(500, 500))
+    
     
     moon.position = CGPointMake(screenCenter.x, -300)
     moon.strokeColor = SKColor.clearColor()
@@ -90,5 +93,46 @@ class GameScene: SKScene {
     moon.runAction(SKAction.repeatActionForever(moonRotation))
     
         }
+    
+    func createAsteriods() {
+        
+        
+        
+        let asteroidGroups: [CGPoint] = [
+            
+            CGPointMake(200, 50),
+            CGPointMake(250, 100),
+            CGPointMake(273, -50),
+            CGPointMake(-230, -80),
+            CGPointMake(-350, -150),
+            CGPointMake(-310, -180),
+            CGPointMake(-225, -50),
+            CGPointMake(-270, -70),
+            
+        ]
+        
+        for point in asteroidGroups {
+            
+            
+            let asteroid = SKShapeNode(circleOfRadius: 5)
+            
+            
+            asteroid.strokeColor = SKColor.clearColor()
+            asteroid.fillColor = SKColor(white: 0.9, alpha: 1.0)
+            asteroid.position = point
+            
+            var physicsBody = SKPhysicsBody(circleOfRadius: 5)
+            asteroid.physicsBody = physicsBody
+            physicsBody.affectedByGravity = false
+            //physicsBody.applyForce(CGVectorMake(200.0, 0))
+            moon.addChild(asteroid)
+
+            
+            asteroid.xScale = 2.5
+            asteroid.yScale = 2.5
+            
+        }
+    }
+    
 }
 
